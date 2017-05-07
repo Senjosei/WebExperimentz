@@ -1,1 +1,1 @@
-# WebScratch.github.io
+# WebScratch
