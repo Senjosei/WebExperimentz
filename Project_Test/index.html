@@ -1,24 +1,164 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
-    <form enctype="multipart/form-data" method="post">
-    <h2>Regular file upload</h2>
-    <input type="file"></input>
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Jiefu Project</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
-    <h2>capture=camera</h2>
-    <input type="file" accept="image/*;capture=camera"></input>
+		<link rel="stylesheet" href="vendor/fontawesome/font-awesome.min.css" />
+		<link rel="stylesheet" href="vendor/jquerymobile/jquery.mobile.min.css" />
+		<link rel="stylesheet" href="vendor/waves/waves.min.css" />
+		<link rel="stylesheet" href="vendor/wow/animate.css" />
+		<link rel="stylesheet" href="css/nativedroid2.css" />
 
-    <h2>capture=camcorder</h2>
-    <input type="file" accept="video/*;capture=camcorder"></input>
+		<meta name="mobile-web-app-capable" content="yes">
+	 	<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
 
-    <h2>capture=microphone</h2>
-    <input type="file" accept="audio/*;capture=microphone"></input>
-    </form>
-</body>
+	</head>
+	<body>
+		<div data-role="page" id="login" class="clr-bg-indigo clr-white">
+			<div role="main" class="ui-content ui-content-center" data-inset="false">
+				<h1 align="center">Login</h1>
+				<label for="login_name" class="clr-white">Full name</label>
+				<input data-bind="value: name" class="clr-bg-alpha" type="text" name="login_name" id="login_name" value="" data-clear-btn="true" placeholder="Username here...">
+				<label for="login_id" class="clr-white">Account ID</label>
+				<input data-bind="value: id" class="clr-bg-alpha" type="password" name="login_id" id="login_id" value="" data-clear-btn="true" placeholder="ID here...">
+				<a href="#index" data-bind="click: test" class="ui-btn ui-btn-raised clr-primary">login</a>
+			</div>
+		</div>
+
+		<div data-role="page" id="index" class="wow fadeIn">
+			<div data-role="panel" id="indexpanel" data-display="overlay" data-position-fixed="true" class="clr-bg-white" >
+				<nd2-include data-src="fragments/panel.menu.html"></nd2-include>
+			</div>
+
+			<div data-role="header" data-position="fixed">
+				<a href="#indexpanel" class="ui-btn ui-btn-left"><i class="zmdi zmdi-menu"></i></a>
+				<h1 class="wow fadeIn">Home</h1>
+			</div>
+
+			<div role="main" class="ui-content" data-inset="false">
+				<p>(home)</p>
+			</div>
+		</div>
+
+		<div data-role="page" id="add" class="wow fadeIn">
+			<div data-role="panel" id="addpanel" data-display="overlay" data-position-fixed="true" class="clr-bg-white" >
+				<nd2-include data-src="fragments/panel.menu.html"></nd2-include>				
+			</div>
+			<div data-role="header" data-position="fixed">
+				<a href="#addpanel" class="ui-btn ui-btn-left"><i class="zmdi zmdi-menu"></i></a>
+				<h1>Add Entry</h1>
+			</div>
+			<div role="main" class="ui-content" data-inset="false">
+				<label for="add_name" class="">Location name</label>
+				<input data-bind="value: addName" class="" type="text" name="add_name" id="add_name" value="" data-clear-btn="true" placeholder="Location name...">
+				<div class="nd2-card">
+					<div class="card-media">
+						<div id="googleMap" style="height:400px">
+
+						</div>
+					</div>
+					<div class="card-supporting-text has-action">
+						<strong>Lavandula</strong> (common name lavender) is a genus of 39 known species of flowering plants in the mint family, Lamiaceae. It is native to the Old World and is found from Cape Verde and the Canary Islands, southern Europe across to northern and eastern Africa, the Mediterranean, southwest Asia to southeast India.
+					</div>
+					<div class="card-action">
+						<div class="row between-xs">
+							<div class="col-xs-4">
+								<div class="box">
+									<a href="#" class="ui-btn ui-btn-inline ui-btn-fab"><i class='zmdi zmdi-mic'></i></a>
+									<a href="#" class="ui-btn ui-btn-inline ui-btn-fab"><i class='zmdi zmdi-videocam'></i></a>
+								</div>
+							</div>
+							<div class="col-xs-8 align-right">
+								<div class="box">
+									<a href="#" class="ui-btn ui-btn-inline">Action</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+		<div data-role="page" id="view" class="wow fadeIn">
+			<div data-role="panel" id="viewpanel" data-display="overlay" data-position-fixed="true" class="clr-bg-white" >
+				<nd2-include data-src="fragments/panel.menu.html"></nd2-include>				
+			</div>
+			<div data-role="header" data-position="fixed">
+				<a href="#viewpanel" class="ui-btn ui-btn-left"><i class="zmdi zmdi-menu"></i></a>
+				<h1>View Entry</h1>
+			</div>
+			<div role="main" class="ui-content" data-inset="false">
+				<table data-role="table" id="table-column-toggle" data-mode="columntoggle" class="ui-responsive table-stroke">
+				<thead>
+					<tr>
+					<th data-priority="1">No</th>
+					<th>Name</th>
+					<th data-priority="2"><abbr title="Latitude">Lat</th>
+					<th data-priority="3"><abbr title="Longitude">Long</th>
+					<th data-priority="4">Note</th>
+					</tr>
+				</thead>
+				<tbody data-bind="foreach: entries">
+					<tr data-bind="click: $parent.goEntry">
+						<td data-bind="text: no"></td>
+						<td data-bind="text: name"></td>
+						<td data-bind="text: lat"></td>
+						<td data-bind="text: long"></td>
+						<td data-bind="text: note"></td>
+					</tr>
+				</tbody>
+				</table>
+			</div>
+		</div>
+
+		<div data-role="page" id="about" class="wow fadeIn">
+			<div data-role="panel" id="aboutpanel" data-display="overlay" data-position-fixed="true" class="clr-bg-white" >
+				<nd2-include data-src="fragments/panel.menu.html"></nd2-include>				
+			</div>
+			<div data-role="header" data-position="fixed">
+				<a href="#aboutpanel" class="ui-btn ui-btn-left"><i class="zmdi zmdi-menu"></i></a>
+				<h1 class="wow fadeIn">About</h1>
+			</div>
+			<div role="main" class="ui-content" data-inset="false">
+				<div class="nd2-card card-media-right card-media-small">
+					<div class="card-media">
+						<img src="img/panel.user.thumb.jpg">
+					</div>
+					<div class="card-title">
+						<h3 class="card-primary-title">Jiefu Project</h3>
+						<h5 class="card-subtitle">@Senjosei</h5>
+					</div>
+				</div>
+				<p>This is just a little something i whipped up for the project. I changed my mind about making a native app and made a web app instead so that its crossplatform and can be used on any device. Note this is not the final design i made this in 1 day with no planning whatsoever soo yea...</p>
+				<hr/>
+				<ul data-role="listview" data-icon="false">
+					<li data-role="list-divider">
+						OpenSource Tech Used
+					</li>
+					<li><a href="#">jQuery</a></li>
+					<li><a href="#">jQuery UI</a></li>
+					<li><a href="#">jQuery Mobile</a></li>
+					<li><a href="#">nativeDroid2</a></li>
+					<li><a href="#">Knockout.js</a></li>
+				</ul>
+				<img src="img/about.fun.png" width="100%" alt="OS is awesome"/>
+			</div>
+		</div>
+
+		<script src="vendor/jquery/jquery.min.js"></script>
+		<script src="vendor/knockout/knockout.min.js"></script>
+		<script src="vendor/knockout/knockout-es5.min.js"></script>
+		<script src="vendor/jqueryui/jquery-ui.min.js"></script>
+		<script src="vendor/jquerymobile/jquery.mobile.min.js"></script>
+		<script src="vendor/waves/waves.min.js"></script>
+		<script src="vendor/wow/wow.min.js"></script>
+		<script src="vendor/nd2/nativedroid2.js"></script>
+		<script src="vendor/nd2/nd2settings.js"></script>
+		<script src="js/main.js"></script>
+		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAlmkkNlexhscxKbtICtJoeZD6FrhIKmDA"></script>
+
+	</body>
 </html>
