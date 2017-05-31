@@ -1,0 +1,11 @@
+img.main-loaded-img{
+    height: 200px;
+    text-align: center;
+    line-height: 200px;
+    object-fit: contain;
+    background-color: #d7d7d7
+}
+
+.hidden{
+    display: none;
+}

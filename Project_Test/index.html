@@ -9,6 +9,7 @@
 		<link rel="stylesheet" href="vendor/waves/waves.min.css" />
 		<link rel="stylesheet" href="vendor/wow/animate.css" />
 		<link rel="stylesheet" href="css/nativedroid2.css" />
+		<link rel="stylesheet" href="css/main.css" />
 
 		<meta name="mobile-web-app-capable" content="yes">
 	 	<meta name="apple-mobile-web-app-capable" content="yes" />
@@ -20,7 +21,7 @@
 			<div role="main" class="ui-content ui-content-center" data-inset="false">
 				<h1 align="center">Login</h1>
 				<label for="login_name" class="clr-white">Full name</label>
-				<input data-bind="value: name" class="clr-bg-alpha" type="text" name="login_name" id="login_name" value="" data-clear-btn="true" placeholder="Username here...">
+				<input data-bind="value: username" class="clr-bg-alpha" type="text" name="login_name" id="login_name" value="" data-clear-btn="true" placeholder="Username here...">
 				<label for="login_id" class="clr-white">Account ID</label>
 				<input data-bind="value: id" class="clr-bg-alpha" type="password" name="login_id" id="login_id" value="" data-clear-btn="true" placeholder="ID here...">
 				<a href="#index" data-bind="click: test" class="ui-btn ui-btn-raised clr-primary">login</a>
@@ -29,7 +30,31 @@
 
 		<div data-role="page" id="index" class="wow fadeIn">
 			<div data-role="panel" id="indexpanel" data-display="overlay" data-position-fixed="true" class="clr-bg-white" >
-				<nd2-include data-src="fragments/panel.menu.html"></nd2-include>
+				<!--<nd2-include data-src="fragments/panel.menu.html"></nd2-include>-->
+				<div class='nd2-sidepanel-profile wow fadeInDown'>
+					<img class='profile-background' src="img/panel.user.bg.jpg" />
+					<div class="row">
+						<div class='col-xs-4 center-xs'>
+							<div class='box'>
+								<img class="profile-thumbnail" src="img/panel.user.thumb.jpg" />
+							</div>
+						</div>
+						<div class='col-xs-8'>
+							<div class='box profile-text'>
+								<strong id="username_lbl" data-bind="text: username">Senjosei</strong>
+								<span class='subline' id="id_lbl" data-bind="text: id">101410503</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<ul data-role="listview" data-icon="false" style="margin:1em -1em">
+					<li><a href="#index"><i class="zmdi zmdi-home clr-light-blue"></i>&nbsp;&nbsp;&nbsp;&nbsp;Home</a></li>
+					<li><a href="#add"><i class="zmdi zmdi-collection-add clr-red"></i>&nbsp;&nbsp;&nbsp;&nbsp;Add Entry</a></li>
+					<li><a href="#view"><i class="zmdi zmdi-collection-text clr-teal"></i>&nbsp;&nbsp;&nbsp;&nbsp;View Entry</a></li>
+					<li><a href="#">Apple</a></li>
+					<hr/>
+					<li><a href="#about"><i class="zmdi zmdi-account-box clr-deep-purple"></i>&nbsp;&nbsp;&nbsp;&nbsp;About</a></li>
+				</ul>
 			</div>
 
 			<div data-role="header" data-position="fixed">
@@ -51,28 +76,32 @@
 				<h1>Add Entry</h1>
 			</div>
 			<div role="main" class="ui-content" data-inset="false">
-				<label for="add_name" class="">Location name</label>
-				<input data-bind="value: addName" class="" type="text" name="add_name" id="add_name" value="" data-clear-btn="true" placeholder="Location name...">
 				<div class="nd2-card">
+					<div class="card-title has-supporting-text">
+						<label for="add_name" class="card-primary-title">Location name</label>
+						<input data-bind="value: locationName" class="card-subtitle" type="text" name="add_name" id="add_name" value="" data-clear-btn="true" placeholder="Location name...">
+					</div>
 					<div class="card-media">
-						<div id="googleMap" style="height:400px">
-
-						</div>
+						<div id="googleMap" style="height:400px"></div>
 					</div>
 					<div class="card-supporting-text has-action">
-						<strong>Lavandula</strong> (common name lavender) is a genus of 39 known species of flowering plants in the mint family, Lamiaceae. It is native to the Old World and is found from Cape Verde and the Canary Islands, southern Europe across to northern and eastern Africa, the Mediterranean, southwest Asia to southeast India.
+						<p><strong>Latitude : </strong><span data-bind="text: curlat"></span></p>
+						<p><strong>Longitude : </strong><span data-bind="text: curlong"></span></p>
+						<p><strong>Accuracy : </strong><span data-bind="text: curacc + 'Meters'"></span></p>
+					</div>
+					<div class="card-media">
+						<img id="location_pict" class="main-loaded-img" alt="No Image Loaded"></img>
 					</div>
 					<div class="card-action">
 						<div class="row between-xs">
 							<div class="col-xs-4">
 								<div class="box">
-									<a href="#" class="ui-btn ui-btn-inline ui-btn-fab"><i class='zmdi zmdi-mic'></i></a>
-									<a href="#" class="ui-btn ui-btn-inline ui-btn-fab"><i class='zmdi zmdi-videocam'></i></a>
+									<a href="#" data-bind="click: getPict" class="ui-btn ui-btn-inline ui-btn-fab"><i class='zmdi zmdi-camera'></i></a>
 								</div>
 							</div>
 							<div class="col-xs-8 align-right">
 								<div class="box">
-									<a href="#" class="ui-btn ui-btn-inline">Action</a>
+									<a href="#view" data-bind="click: addEntry" class="ui-btn ui-btn-inline">Save Entry</a>
 								</div>
 							</div>
 						</div>
@@ -94,16 +123,16 @@
 				<table data-role="table" id="table-column-toggle" data-mode="columntoggle" class="ui-responsive table-stroke">
 				<thead>
 					<tr>
-					<th data-priority="1">No</th>
+					<!--<th data-priority="1">No</th>-->
 					<th>Name</th>
-					<th data-priority="2"><abbr title="Latitude">Lat</th>
-					<th data-priority="3"><abbr title="Longitude">Long</th>
-					<th data-priority="4">Note</th>
+					<th data-priority="1"><abbr title="Latitude">Lat</th>
+					<th data-priority="2"><abbr title="Longitude">Long</th>
+					<th data-priority="3">Note</th>
 					</tr>
 				</thead>
 				<tbody data-bind="foreach: entries">
 					<tr data-bind="click: $parent.goEntry">
-						<td data-bind="text: no"></td>
+						<!--<td data-bind="text: no"></td>-->
 						<td data-bind="text: name"></td>
 						<td data-bind="text: lat"></td>
 						<td data-bind="text: long"></td>
@@ -147,6 +176,8 @@
 				<img src="img/about.fun.png" width="100%" alt="OS is awesome"/>
 			</div>
 		</div>
+		
+		<input id="add_pict" class="hidden" type="file" accept="image/*" id="capture" capture="camera"/> 
 
 		<script src="vendor/jquery/jquery.min.js"></script>
 		<script src="vendor/knockout/knockout.min.js"></script>
