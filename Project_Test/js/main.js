@@ -49,7 +49,7 @@ $(function(){
                 };
 
                 self.getStaticMap = function(){
-                    return "https://maps.googleapis.com/maps/api/staticmap?center=" + self.tempEntry.lat + "," + self.tempEntry.long + "&zoom=19&size=400x400&markers=color:red%7C" + self.tempEntry.lat + "," + self.tempEntry.long + "&sensor=false";
+                    return "https://maps.googleapis.com/maps/api/staticmap?center=" + self.tempEntry.lat + "," + self.tempEntry.long + "&zoom=19&size=400x400&markers=color:red%7C" + self.tempEntry.lat + "," + self.tempEntry.long + "&sensor=false&key=AIzaSyAlmkkNlexhscxKbtICtJoeZD6FrhIKmDA";
                 };
 
                 self.getPict = function(){
