@@ -6,6 +6,15 @@ img.main-loaded-img{
     background-color: #d7d7d7
 }
 
+img.main-map-img{
+    width: calc(100vw - 2em);
+    height: calc(100vw - 2em);
+    text-align: center;
+    line-height: calc(100vw - 2em);
+    object-fit: contain;
+    background-color: #d7d7d7
+}
+
 .hidden{
     display: none;
 }

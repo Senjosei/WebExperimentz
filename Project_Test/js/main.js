@@ -7,11 +7,14 @@ $(function(){
                 // alert("pageadd is about to be shown");
             });
             $(document).on("pageshow","#add",function(){ // When entering pageadd
-                // alert("pagetwo is now shown");
-                main.Maps.SetupOnce(main);
+                if(main.Maps.Map == undefined ){
+                    main.Maps.SetupOnce(main);
+                } else {
+                    main.Maps.Resume(main);
+                }
             });
             $(document).on("pagebeforehide","#add",function(){ // When leaving pagetwo
-                // alert("pageadd is about to be hidden");
+                main.Maps.Stop();
             });
             $(document).on("pagehide","#add",function(){ // When leaving pagetwo
                 // alert("pageadd is now hidden");
@@ -28,24 +31,25 @@ $(function(){
                 self.curacc = 0;
                 self.locationPict = '';
 
-                self.test = function(){
-                    alert('name = ' + self.username + ' id = ' + self.id);
-                    return true;
+                self.tempEntry = {
+                    name: 'None',
+                    lat: 0,
+                    long: 0,
+                    image: ''
                 };
 
-                self.entries = [
-                    {name: 'sdasdsa', lat: '-12312312', long: '123123123', note: 'notenotenote', image: 'sdasdsdasd'},
-                    {name: 'sdasdsa', lat: '-12312312', long: '123123123', note: 'notenotenote', image: 'sdasdsdasd'},
-                    {name: 'sdasdsa', lat: '-12312312', long: '123123123', note: 'notenotenote', image: 'sdasdsdasd'},
-                    {name: 'sdasdsa', lat: '-12312312', long: '123123123', note: 'notenotenote', image: 'sdasdsdasd'},
-                    {name: 'sdasdsa', lat: '-12312312', long: '123123123', note: 'notenotenote', image: 'sdasdsdasd'},
-                    {name: 'sdasdsa', lat: '-12312312', long: '123123123', note: 'notenotenote', image: 'sdasdsdasd'},
-                    {name: 'sdasdsa', lat: '-12312312', long: '123123123', note: 'notenotenote', image: 'sdasdsdasd'},
-                    {name: 'sdasdsa', lat: '-12312312', long: '123123123', note: 'notenotenote', image: 'sdasdsdasd'},
-                    {name: 'sdasdsa', lat: '-12312312', long: '123123123', note: 'notenotenote', image: 'sdasdsdasd'},
-                ];
-                self.goEntry = function(){
-                    alert(this.no + ' ' + this.name + ' ' + this.lat + ' ' + this.long + ' ' + this.note + ' ' );
+                self.sendEmail = '';
+
+                self.entries = [];
+                self.goEntry = function(line){
+                    self.tempEntry = line;
+                    window.location.href = '#viewEntry';
+                    console.log(line);
+                    // alert(this.no + ' ' + this.name + ' ' + this.lat + ' ' + this.long + ' ' + this.note + ' ' );
+                };
+
+                self.getStaticMap = function(){
+                    return "https://maps.googleapis.com/maps/api/staticmap?center=" + self.tempEntry.lat + "," + self.tempEntry.long + "&zoom=19&size=400x400&markers=color:red%7C" + self.tempEntry.lat + "," + self.tempEntry.long + "&sensor=false";
                 };
 
                 self.getPict = function(){
@@ -58,6 +62,19 @@ $(function(){
                             self.locationPict = reader.result;
                         }
                     });
+                };
+
+                self.sendEntries = function(){
+                    console.log('here');
+                    var head = "?subject=Data Entry ID: '" + self.id + "' Name: '" + self.username + "'&body="; 
+                    var body = "Name,Latitute,Longditude,Image\n";
+                    for (var i = 0; i < self.entries.length; i++){
+                        body += self.entries[i].name + ',';
+                        body += self.entries[i].lat + ',';
+                        body += self.entries[i].long + ',';
+                        body += self.entries[i].image + '\n';
+                    }
+                    window.location.href = 'mailto:' + self.sendEmail + head + encodeURIComponent(body);
                 };
 
                 self.addEntry = function(){
@@ -88,7 +105,7 @@ $(function(){
             MarkerLong: 0,
             MarkerAcc: 0,
             MapProp: {
-                zoom: 20,
+                zoom: 19,
                 center: new google.maps.LatLng(0,0),
                 streetViewControl: false
             },
@@ -105,7 +122,7 @@ $(function(){
                 fillOpacity: 0.35,
                 radius: 0
             }),
-            SetupOnce: function(main){
+            SetupOnce: function(main){ //TODO Refactor
                 var self = this;
                 if(self.Map != undefined ){return true}
                 navigator.geolocation.getCurrentPosition(function(position) {
@@ -129,7 +146,29 @@ $(function(){
                     }, self.geo_error, self.geo_options);
                     self.MapMarker.setMap(self.Map);
                     self.MapCircle.setMap(self.Map);
-                });       
+                }, self.geo_error);       
+            },
+            Resume: function(main){ //TODO Refactor
+                var self = this;
+                self.WPID = navigator.geolocation.watchPosition(function(position){ //TODO move this
+                    if((main.MVVM.curlat != position.coords.latitude) || (main.MVVM.curlong != position.coords.longitude)){
+                        console.log('ming');
+                        self.Map.panTo(new google.maps.LatLng(position.coords.latitude,position.coords.longitude));
+                    }
+                    self.MapMarker.setPosition(new google.maps.LatLng(position.coords.latitude,position.coords.longitude));
+                    self.MapCircle.setCenter(new google.maps.LatLng(position.coords.latitude,position.coords.longitude));
+                    self.MapCircle.setRadius(position.coords.accuracy);
+                    self.MarkerLat = position.coords.latitude;
+                    self.MarkerLong = position.coords.longitude;
+                    self.MarkerAcc = position.coords.accuracy;
+                    main.MVVM.curlat = self.MarkerLat;
+                    main.MVVM.curlong = self.MarkerLong;
+                    main.MVVM.curacc = self.MarkerAcc;
+                    //TODO stop watch position if accurate enuf
+                }, self.geo_error, self.geo_options);
+            },
+            Stop: function(){
+                navigator.geolocation.clearWatch(this.WPID);
             }
         },
         Functions:{
