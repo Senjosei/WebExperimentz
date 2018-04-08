@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>GPS Camera</title>
+    <link rel="stylesheet" href="main.css">
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDG1TkMAj0eiD4hXEZbKWMAZPo4lmg1yTo" async defer></script>
+    <script src="dom-to-image.min.js"></script>
+    <script src="fallback.js"></script>
+</head>
+<body id="main">
+    <pre id="text">Loading Location...</pre>
+    <img id="tmp" class="hide" src="" alt="">
+    <div id="map"></div>
+    <div id="capture">Save</div>
+    <div id="pict">Take Pict</div>
+    <input id="add_pict" class="hide" type="file" accept="image/*" capture="camera">
+</body>
+</html>

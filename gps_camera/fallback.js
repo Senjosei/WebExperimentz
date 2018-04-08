@@ -2,33 +2,10 @@ window.onload = function(){
 
     const text = document.querySelector('#text');
     const main = document.querySelector('#main');
-    const video = document.querySelector('video');
     const capture = document.querySelector('#capture');
     const map = document.getElementById("map");
     const tmp = document.getElementById("tmp");
-
-    const canvas = document.createElement('canvas');
-    const constraints = {
-        audio: false,
-        video: {
-            width: 1080,
-            height: 1920,
-            facingMode: "environment"
-        }
-    };
-      
-    
-    function handleSuccess(stream) {
-        video.srcObject = stream;
-    }
-    
-    function handleError(error) {
-        console.error('Reeeejected!', error);
-    }
-    
-    navigator.mediaDevices.getUserMedia(constraints).
-    then(handleSuccess).
-    catch(handleError);
+    const pict = document.getElementById("pict");
 
     MapProp = {
         zoom: 18,
@@ -73,36 +50,21 @@ window.onload = function(){
         timeout           : 27000
     });
 
+    pict.addEventListener("click", function(){
+        document.getElementById("add_pict").click()
+        document.getElementById("add_pict").onchange = function(){
+            var reader = new FileReader();
+            reader.readAsDataURL(this.files[0]);
+            reader.onload = function(){
+                tmp.src = reader.result
+            }
+            tmp.classList.remove('hide');
+        }
+    })
+
     capture.addEventListener("click",function(){
         capture.classList.add('hide');
-        tmp.classList.remove('hide');
-
-        /* Binary search for dpi */
-        function findFirstPositive(b, a, i, c) {
-            c=(d,e)=>e>=d?(a=d+(e-d)/2,0<b(a)&&(a==d||0>=b(a-1))?a:0>=b(a)?c(a+1,e):c(d,a-1)):-1
-            for (i = 1; 0 >= b(i);) i *= 2
-            return c(i / 2, i)|0
-        }
-        
-        /* 240 on my device */
-        var deviceDpi = findFirstPositive(x => matchMedia(`(max-resolution: ${x}dpi)`).matches)
-        
-        /* 2.5 on my device */
-        var pixelRatio = window.devicePixelRatio || 1
-        
-        /* 96 on my device */
-        var canvasDpi = deviceDpi / pixelRatio
-
-        var scaleFactor = deviceDpi / canvasDpi;
-
-        canvas.width = video.videoWidth*scaleFactor;
-        canvas.height = video.videoHeight*scaleFactor;
-        var ctx = canvas.getContext('2d');
-        ctx.drawImage(video, 0, 0);
-        // ctx.scale(scaleFactor,scaleFactor);
-        // Other browsers will fall back to image/png
-        tmp.src = canvas.toDataURL('image/png');
-
+        pict.classList.add('hide');
         domtoimage.toPng(main,{
 
         })
@@ -114,7 +76,7 @@ window.onload = function(){
             link.click();
             document.body.removeChild(link);
             capture.classList.remove('hide');
-            tmp.classList.add('hide');
+            pict.classList.remove('hide');
         })
         // html2canvas(document.body).then(function(canvas) {
         //     document.body.appendChild(canvas);

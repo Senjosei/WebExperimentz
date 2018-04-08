@@ -36,35 +36,49 @@ html, body{
     position: absolute;
     bottom: 0;
     left: 0;
-    padding: 10vw;
+    padding: 3vw;
     background-color: #26447c;
+    color: white;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#pict{
+    z-index: 1001;    
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 3vw;
+    background-color: #7c2639;
     color: white;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 video{
     position: absolute;
-    bottom: 0;
+    top: 0;
     left: 0;
-    width: 100vw;
-    height: 100vh;
-    /* height: calc(4/3*100vw); */
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
 }
 
 #tmp{
     position: absolute;
     top: 0;
     left: 0;
-    width: 100vw;
-    height: 100vh;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
     object-fit: contain;
-    /* height: calc(4/3*100vw); */
 }
 
 #map{
     position: absolute;
     overflow: hidden;
-    width: 45vw;
+    width: 100%;
     height: 45vw;
     bottom: 0;
     right: 0;
