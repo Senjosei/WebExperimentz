@@ -43,6 +43,9 @@ html, body{
 }
 
 video{
+    position: absolute;
+    bottom: 0;
+    left: 0;
     width: 100vw;
     height: 100vh;
     /* height: calc(4/3*100vw); */

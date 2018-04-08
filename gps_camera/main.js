@@ -83,8 +83,7 @@ window.onload = function(){
         tmp.src = canvas.toDataURL('image/webp');
 
         domtoimage.toPng(main,{
-            width:window.innerWidth,
-            height:window.innerHeight,
+
         })
         .then(function(dataUrl){
             var link = document.createElement('a');
