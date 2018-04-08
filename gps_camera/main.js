@@ -9,7 +9,10 @@ window.onload = function(){
 
     const canvas = document.createElement('canvas');
     const constraints = {
-        video: true
+        audio: false,
+        video: {
+            facingMode: "environment"
+        }
     };
       
     
