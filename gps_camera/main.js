@@ -11,8 +11,6 @@ window.onload = function(){
     const constraints = {
         audio: false,
         video: {
-            width: 1080,
-            height: 1920,
             facingMode: "environment"
         }
     };
