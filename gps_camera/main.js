@@ -4,7 +4,10 @@ window.onload = function(){
     const main = document.querySelector('#main');
     const video = document.querySelector('video');
     const capture = document.querySelector('#capture');
+    const map = document.getElementById("map");
+    const tmp = document.getElementById("tmp");
 
+    const canvas = document.createElement('canvas');
     const constraints = {
         video: true
     };
@@ -41,7 +44,7 @@ window.onload = function(){
         fillOpacity: 0.35,
         radius: 0
     });
-    GoogleMap = new google.maps.Map(document.getElementById("map"),MapProp);
+    GoogleMap = new google.maps.Map(map,MapProp);
     MapMarker.setMap(GoogleMap);
     MapCircle.setMap(GoogleMap);
 
@@ -68,8 +71,17 @@ window.onload = function(){
 
     capture.addEventListener("click",function(){
         capture.classList.add('hide');
-        domtoimage.toPng(main,{
+        tmp.classList.remove('hide');
 
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        canvas.getContext('2d').drawImage(video, 0, 0);
+        // Other browsers will fall back to image/png
+        tmp.src = canvas.toDataURL('image/webp');
+
+        domtoimage.toPng(main,{
+            width:window.innerWidth,
+            height:window.innerHeight,
         })
         .then(function(dataUrl){
             var link = document.createElement('a');
@@ -79,7 +91,11 @@ window.onload = function(){
             link.click();
             document.body.removeChild(link);
             capture.classList.remove('hide');
+            tmp.classList.add('hide');
         })
+        // html2canvas(document.body).then(function(canvas) {
+        //     document.body.appendChild(canvas);
+        // });
     });
 
 }

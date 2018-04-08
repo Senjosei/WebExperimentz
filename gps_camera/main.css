@@ -12,11 +12,17 @@ html, body{
     display: none;
 }
 
+.fill{
+    width: 100% !important;
+    height: 100% !important;
+}
+
 #main{
     background: #292929;
 }
 
 #text{
+    z-index: 1000;
     position: absolute;
     top: 0;
     left: 0;
@@ -39,6 +45,16 @@ html, body{
 video{
     width: 100vw;
     height: 100vh;
+    /* height: calc(4/3*100vw); */
+}
+
+#tmp{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    object-fit: contain;
     /* height: calc(4/3*100vw); */
 }
 
