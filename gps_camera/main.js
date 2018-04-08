@@ -93,10 +93,9 @@ window.onload = function(){
 
         var scaleFactor = deviceDpi / canvasDpi;
 
-        canvas.width = video.videoWidth*scaleFactor;
-        canvas.height = video.videoHeight*scaleFactor;
-        var ctx = canvas.getContext('2d');
-        ctx.drawImage(video, 0, 0);
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        canvas.getContext('2d').drawImage(video, 0, 0);
         // ctx.scale(scaleFactor,scaleFactor);
         // Other browsers will fall back to image/png
         tmp.src = canvas.toDataURL('image/png');
