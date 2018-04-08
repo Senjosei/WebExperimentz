@@ -63,7 +63,6 @@ window.onload = function(){
         MapMarker.setPosition(new google.maps.LatLng(position.coords.latitude,position.coords.longitude));
         MapCircle.setCenter(new google.maps.LatLng(position.coords.latitude,position.coords.longitude));
         MapCircle.setRadius(position.coords.accuracy);
-        GoogleMap.fitBounds(MapCircle.getBounds(),0);
     },function error(){
         console.log("ERROR")
     },{
