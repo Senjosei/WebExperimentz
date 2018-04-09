@@ -7,7 +7,6 @@ window.onload = function(){
     const map = document.getElementById("map");
     const tmp = document.getElementById("tmp");
     const pict = document.getElementById("pict");
-    const btn = document.querySelector(".btn");
 
     MapProp = {
         zoom: 18,
@@ -91,6 +90,7 @@ window.onload = function(){
     });
     
     btn.addEventListener("click",function(){
+        var btn = document.querySelector(".btn");
                 document.body.removeChild(btn);
                 capture.classList.remove('hide');
                 pict.classList.remove('hide');
