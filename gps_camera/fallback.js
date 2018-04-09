@@ -78,6 +78,9 @@ window.onload = function(){
             capture.classList.remove('hide');
             pict.classList.remove('hide');
         })
+        .catch(function(error){
+            alert(error);
+        })
         // html2canvas(document.body).then(function(canvas) {
         //     document.body.appendChild(canvas);
         // });
