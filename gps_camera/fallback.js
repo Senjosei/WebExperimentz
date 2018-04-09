@@ -72,6 +72,7 @@ window.onload = function(){
 
         })
         .then(function(dataUrl){
+            alert(dataUrl);
             var link = document.createElement('a');
             link.download = 'image.png';
             link.href = dataUrl;
