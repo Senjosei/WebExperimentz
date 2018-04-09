@@ -7,6 +7,7 @@ window.onload = function(){
     const map = document.getElementById("map");
     const tmp = document.getElementById("tmp");
     const pict = document.getElementById("pict");
+    const btn = document.querySelector(".btn");
 
     MapProp = {
         zoom: 18,
@@ -79,13 +80,7 @@ window.onload = function(){
             link.download = 'image.png';
             link.href = dataUrl;
             document.body.appendChild(link);
-            link.click();
-            setTimeout(function(){
-                document.body.removeChild(link);
-                capture.classList.remove('hide');
-                pict.classList.remove('hide');
-                capturing = true;
-            },500)
+
         })
         .catch(function(error){
             alert(error.toString());
@@ -94,5 +89,12 @@ window.onload = function(){
         //     document.body.appendChild(canvas);
         // });
     });
+    
+    btn.addEventListener("click",function(){
+                document.body.removeChild(btn);
+                capture.classList.remove('hide');
+                pict.classList.remove('hide');
+                capturing = true;
+    })
 
 }
