@@ -1,4 +1,5 @@
 window.onload = function(){
+    var capturing = false;
 
     const text = document.querySelector('#text');
     const main = document.querySelector('#main');
@@ -31,6 +32,7 @@ window.onload = function(){
     MapCircle.setMap(GoogleMap);
 
     navigator.geolocation.watchPosition(function(position){
+        if(capturing)return true;
         text.textContent = 
         "Latitude  = "+position.coords.latitude+"\n"+
         "Longitude = "+position.coords.longitude+"\n"+
@@ -63,6 +65,7 @@ window.onload = function(){
     })
 
     capture.addEventListener("click",function(){
+        capturing = true;
         capture.classList.add('hide');
         pict.classList.add('hide');
         domtoimage.toPng(main,{
@@ -77,9 +80,10 @@ window.onload = function(){
             document.body.removeChild(link);
             capture.classList.remove('hide');
             pict.classList.remove('hide');
+            capturing = true;
         })
         .catch(function(error){
-            alert(error);
+            alert(error.toString());
         })
         // html2canvas(document.body).then(function(canvas) {
         //     document.body.appendChild(canvas);
