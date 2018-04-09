@@ -79,7 +79,13 @@ window.onload = function(){
             link.download = 'image.png';
             link.href = dataUrl;
             document.body.appendChild(link);
-
+            btn.addEventListener("click",function(){
+                var btn = document.querySelector(".btn");
+                document.body.removeChild(btn);
+                capture.classList.remove('hide');
+                pict.classList.remove('hide');
+                capturing = true;
+            });
         })
         .catch(function(error){
             alert(error.toString());
@@ -88,13 +94,5 @@ window.onload = function(){
         //     document.body.appendChild(canvas);
         // });
     });
-    
-    btn.addEventListener("click",function(){
-        var btn = document.querySelector(".btn");
-                document.body.removeChild(btn);
-                capture.classList.remove('hide');
-                pict.classList.remove('hide');
-                capturing = true;
-    })
-
+   
 }
