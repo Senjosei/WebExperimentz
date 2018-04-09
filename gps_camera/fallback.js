@@ -78,10 +78,12 @@ window.onload = function(){
             link.href = dataUrl;
             document.body.appendChild(link);
             link.click();
-            document.body.removeChild(link);
-            capture.classList.remove('hide');
-            pict.classList.remove('hide');
-            capturing = true;
+            setTimeout(function(){
+                document.body.removeChild(link);
+                capture.classList.remove('hide');
+                pict.classList.remove('hide');
+                capturing = true;
+            },500)
         })
         .catch(function(error){
             alert(error.toString());
