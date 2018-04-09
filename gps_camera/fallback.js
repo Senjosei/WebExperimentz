@@ -74,6 +74,8 @@ window.onload = function(){
         .then(function(dataUrl){
             alert(dataUrl);
             var link = document.createElement('a');
+            link.classList.add('btn');
+            link.text = "Testing";
             link.download = 'image.png';
             link.href = dataUrl;
             document.body.appendChild(link);
